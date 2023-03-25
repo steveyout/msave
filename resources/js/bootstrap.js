@@ -1,6 +1,7 @@
 window.Swal=require('sweetalert2')
 window.$ = require('jquery');
 window._ = require('lodash');
+window.bootstrap=require('bootstrap')
 
 try {
     require('bootstrap');

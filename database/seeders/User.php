@@ -22,6 +22,7 @@ class User extends Seeder
         $user->password=Hash::make('test123@');
         $user->phone_no='254719567930';
         $user->id_no='0719567930';
+        $user->is_admin=true;
         $user->save();
     }
 }

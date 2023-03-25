@@ -61,6 +61,12 @@
     </div>
     <div class="col-12 col-md-5 col-lg-8 d-flex align-items-center justify-content-md-end mt-3 mt-md-0">
         <div class="dropdown">
+            @if(Auth::user()->is_admin)
+            <a class="btn btn-warning" type="button" aria-expanded="false" href="{{route('admin/dashboard')}}">
+                <x-bi-person-circle/>
+                Admin
+            </a>
+            @endif
             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                 {{Auth::user()->name}}
             </button>

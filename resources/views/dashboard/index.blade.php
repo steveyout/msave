@@ -13,7 +13,7 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">My contribution</h5>
-                    <p class="card-text text-success">0.000 KES</p>
+                    <p class="card-text text-success">{{$myContributions}} KES</p>
                 </div>
             </div>
         </div>
@@ -21,7 +21,7 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Total contribution</h5>
-                    <p class="card-text text-success">0.000 KES</p>
+                    <p class="card-text text-success">{{$contributions}} KES</p>
                 </div>
             </div>
         </div>
