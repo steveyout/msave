@@ -27,8 +27,14 @@
     "dependencies": {
         "apexcharts": "^3.37.2",
         "bootstrap-icons": "^1.10.3",
+        "datatables.net-bs5": "^1.13.4",
+        "datatables.net-buttons-bs5": "^2.3.6",
+        "datatables.net-buttons-dt": "^2.3.6",
+        "datatables.net-responsive-bs5": "^2.4.1",
         "datatables.net-responsive-dt": "^2.4.1",
         "jquery": "^3.6.4",
+        "jszip": "^3.10.1",
+        "pdfmake": "^0.2.7",
         "sweetalert2": "^11.7.3"
     }
 }

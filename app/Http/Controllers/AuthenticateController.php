@@ -33,4 +33,10 @@ class AuthenticateController extends Controller
             'msg' => 'User doesnt exist or password is invalid',
         ]);
     }
+
+    //logout user
+    public function logout(Request $request){
+        Auth::logout();
+        response()->redirectToRoute('login');
+    }
 }

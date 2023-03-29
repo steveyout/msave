@@ -20,6 +20,7 @@ use App\Http\Controllers\AdminActionsController;
 Route::view('/','welcome');
 Route::view('/login', 'login')->name('login');
 Route::post('/auth/login', [AuthenticateController::class,'login'])->name('auth/login');
+Route::get('/logout', [AuthenticateController::class,'logout'])->name('logout');
 
 Route::middleware(['auth:web'])->group(function () {
 Route::get('/dashboard', [DashboardController::class,'Dashboard'])->name('dashboard');
@@ -32,4 +33,6 @@ Route::get('/admin/users', [AdminController::class,'Users'])->name('admin/users'
 Route::post('/admin/add', [AdminActionsController::class,'addUer'])->name('admin/add');
 Route::post('/admin/delete', [AdminActionsController::class,'deleteUser'])->name('admin/delete');
 Route::post('/admin/activate', [AdminActionsController::class,'activateUser'])->name('admin/activate');
+Route::post('/admin/generate', [AdminActionsController::class,'generateUsers'])->name('admin/generate');
+Route::post('/admin/simulate', [AdminActionsController::class,'simulateTransactions'])->name('admin/simulate');
 });

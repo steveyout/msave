@@ -34,6 +34,16 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
     forceTLS: true
  });
 
-import DataTable from 'datatables.net-dt';
-import 'datatables.net-responsive-dt';
+import DataTable from 'datatables.net-bs5';
+import JSZip from 'jszip';
+import PDFMake from 'pdfmake';
+import 'datatables.net-responsive-bs5';
+import 'datatables.net-buttons-bs5';
+import 'datatables.net-buttons/js/buttons.html5.mjs';
+import 'datatables.net-buttons/js/buttons.print.mjs';
+import 'datatables.net-buttons/js/buttons.colVis.mjs';
+import pdfFonts from "pdfmake/build/vfs_fonts";
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
+DataTable.Buttons.jszip(JSZip);
+DataTable.Buttons.pdfMake(PDFMake);
 window.DataTable =DataTable;

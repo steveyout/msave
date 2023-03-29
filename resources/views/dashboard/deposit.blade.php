@@ -45,7 +45,34 @@
                         </form>
                     </div>
                 </div>
-                <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">...</div>
+                <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title mb-4">Transactions</h5>
+
+                            <table class="table w-100" id="table">
+                                <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Amount</th>
+                                    <th scope="col">Receipt No</th>
+                                    <th scope="col">Phone No</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($transactions as $transaction)
+                                    <tr>
+                                        <th scope="row">{{$loop->iteration}}</th>
+                                        <td>{{$transaction->amount}} KES</td>
+                                        <td>{{$transaction->receipt_number}}</td>
+                                        <td>{{$transaction->phone_number}}</td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -96,5 +123,14 @@
     </script>
     <script>
 
+        $(document).ready( function () {
+            $('#table').DataTable({
+                dom: 'Bfrtip',
+                responsive:true,
+                buttons: [
+                    'copy', 'excel', 'pdf'
+                ]
+            });
+        } );
     </script>
 @include('partials.dashfooter')

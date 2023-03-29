@@ -51,7 +51,7 @@
                                 <label for="exampleInputEmail1" class="form-label">Phone no</label>
                                 <div class="input-group flex-nowrap">
                                     <span class="input-group-text" id="addon-wrapping"><x-bi-phone/></span>
-                                    <input type="tel" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="phone_no">
+                                    <input type="tel" class="form-control" placeholder="eg 07123456789" id="exampleInputEmail1" aria-describedby="emailHelp" name="phone_no">
                                 </div>
                             </div>
                             <!--id no -->

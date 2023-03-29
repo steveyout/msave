@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Mail\User as userEmail;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+use Faker\Generator;
 
 class AdminActionsController extends Controller
 {
@@ -28,10 +30,11 @@ class AdminActionsController extends Controller
                 ], $credentials);
                 if ($user) {
                     //mail
-                    //$email=new userEmail();
+                    $email=Mail::to($user->email)
+                        ->queue(new userEmail($credentials));
                     return response()->json([
                         'success' => true,
-                        'msg' => 'User added successfully'
+                        'msg' => 'User added successfully and otp sent via email'
                     ]);
                 } else {
                     return response()->json([
@@ -85,5 +88,49 @@ class AdminActionsController extends Controller
         }else{
             return response(null,403);
         }
+    }
+    ////generate random users
+    public function generateUsers(Request $request,Generator $faker){
+        $users=User::count();
+        if ($users>=10){
+            return response()->json([
+                'success'=>false,
+                'msg'=>'Users already generated'
+            ]);
+        }else{
+            for ($i=0;$i<9;$i++){
+                User::create([
+                    'name' => $faker->name(),
+                    'email'=>preg_replace('/@example\..*/', '@gmail.com', $faker->unique()->safeEmail),
+                    'password'=>Hash::make($faker->password()),
+                    'phone_no'=>$faker->phoneNumber(),
+                    'id_no'=>$faker->randomDigitNotNull()
+                ]);
+            }
+            return response()->json([
+                'success'=>true,
+                'msg'=>'Users generated'
+            ]);
+        }
+    }
+    ////simulate transactions
+    public function simulateTransactions(Request $request,Generator $faker){
+        $users=User::all();
+        foreach ($users as $user){
+            $amount=$faker->numberBetween(100,10000);
+            $user->transactions()->create([
+                'amount'=>$amount,
+                'receipt_number'=>$faker->randomNumber(5, true),
+                'phone_number'=>$faker->phoneNumber()
+            ]);
+            $user->contributions()->create([
+                'amount'=>$amount
+            ]);
+        }
+        return response()->json([
+            'success'=>true,
+            'msg'=>'Transactions simulated'
+        ]);
+
     }
 }

@@ -67,7 +67,7 @@
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <li><a class="dropdown-item" href="#">Settings</a></li>
                 <li><a class="dropdown-item" href="#">Messages</a></li>
-                <li><a class="dropdown-item" href="#">Sign out</a></li>
+                <li><a class="dropdown-item" href="{{route('logout')}}">Sign out</a></li>
             </ul>
         </div>
     </div>
@@ -94,7 +94,7 @@
                     </li>
                 </ul>
                 <div class="d-grid gap-2 mt-md-5">
-                    <a class="btn btn-outline-success me-md-2" href="{{@route('login')}}">
+                    <a class="btn btn-outline-success me-md-2" href="{{route('logout')}}">
                         <x-bi-box-arrow-in-right/>
                         Logout
                     </a>

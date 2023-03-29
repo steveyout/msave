@@ -53,34 +53,25 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title mb-4">Transactions</h5>
+
                     <table class="table" id="table">
                         <thead>
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">First</th>
-                            <th scope="col">Last</th>
-                            <th scope="col">Handle</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col">Receipt No</th>
+                            <th scope="col">Phone No</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                            <td>@fat</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td colspan="2">Larry the Bird</td>
-                            <td>Thornton</td>
-                            <td>@twitter</td>
-                        </tr>
+                        @foreach($transactions as $transaction)
+                            <tr>
+                                <th scope="row">{{$loop->iteration}}</th>
+                                <td>{{$transaction->amount}} KES</td>
+                                <td>{{$transaction->receipt_number}}</td>
+                                <td>{{$transaction->phone_number}}</td>
+                            </tr>
+                        @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -90,7 +81,11 @@
     <script>
         $(document).ready( function () {
             $('#table').DataTable({
-                responsive:true
+                dom: 'Bfrtip',
+                responsive:true,
+                buttons: [
+                    'copy', 'excel', 'pdf'
+                ]
             });
         } );
     </script>

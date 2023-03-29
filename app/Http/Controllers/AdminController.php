@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Akaunting\Apexcharts\Charts;
+use App\Models\transactions;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\contributions;
@@ -15,9 +16,16 @@ class AdminController extends Controller
         $users=User::all();
         $labels=[];
         $data=[];
+        $amount=[];
+        $trLabel=[];
+        $transactions=transactions::all();
         foreach ($users as $user){
-            array_push($labels,$user->contributions()->sum('amount'));
-            array_push($data,$user->name);
+            array_push($data,floatval($user->contributions()->sum('amount')));
+            array_push($labels,$user->name);
+        }
+        foreach ($transactions as $transaction){
+            array_push($trLabel,$transaction->created_at->format('Y-m-d H:i:s'));
+            array_push($amount,$transaction->amount);
         }
         //contributions
         $chart = (new Charts)->setType('donut')
@@ -31,12 +39,13 @@ class AdminController extends Controller
             ->setWidth('100%')
             ->setHeight(300)
             ->setStrokeCurve('smooth')
-            ->setLabels(["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"])
-            ->setDataset('Amount', 'area', [1907, 1923]);
+            ->setLabels($trLabel)
+            ->setDataset('Amount', 'area', $amount);
         return view('admin.index',[
             'chart'=>$chart,
             'chart1'=>$chart1,
-            'total'=>$total
+            'total'=>$total,
+            'transactions'=>$transactions
         ]);
     }
 

@@ -12,20 +12,29 @@ class DashboardController extends Controller
     //dashboard
     public function Dashboard(Request $request){
         $user=Auth::user();
+        $total=floatval(contributions::where('user_id','!=',$user->id)->sum('amount'));
+        $me=floatval($user->contributions()->sum('amount'));
+        $amount=[];
+        $trLabel=[];
+        $transactions=$user->transactions()->get();
+        foreach ($transactions as $transaction){
+            array_push($trLabel,$transaction->created_at->format('Y-m-d H:i:s'));
+            array_push($amount,$transaction->amount);
+        }
         //contributions
         $chart = (new Charts)->setType('donut')
             ->setWidth('100%')
             ->setHeight(300)
             ->setTitle('Contributions')
             ->setLabels(['You', 'Group'])
-            ->setDataset('Income by Category', 'donut', [1907, 1923]);
+            ->setDataset('Income by Category', 'donut', [$me,$total]);
         //transactions
         $chart1 = (new Charts)->setType('area')
             ->setWidth('100%')
             ->setHeight(300)
             ->setStrokeCurve('smooth')
-            ->setLabels(["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"])
-            ->setDataset('Amount', 'area', [1907, 1923]);
+            ->setLabels($trLabel)
+            ->setDataset('Amount', 'area', $amount);
         //count contributions
         $myContributions=$user->contributions()->sum('amount');
         $contributions=contributions::sum('amount');
@@ -33,12 +42,17 @@ class DashboardController extends Controller
             'chart'=>$chart,
             'chart1'=>$chart1,
             'myContributions'=>$myContributions,
-            'contributions'=>$contributions
+            'contributions'=>$contributions,
+            'transactions'=>$transactions
         ]);
     }
 
     ///deposit page
     public function Deposit(Request $request){
-        return view('dashboard.deposit');
+        $user=Auth::user();
+        $transactions=$user->transactions()->get();
+        return view('dashboard.deposit',[
+            'transactions'=>$transactions
+        ]);
     }
 }
