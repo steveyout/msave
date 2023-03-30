@@ -26,6 +26,7 @@ Route::middleware(['auth:web'])->group(function () {
 Route::get('/dashboard', [DashboardController::class,'Dashboard'])->name('dashboard');
 Route::get('/deposit', [DashboardController::class,'Deposit'])->name('deposit');
 Route::post('/initialize', [TransactionsController::class,'initiateDeposit'])->name('initialize');
+Route::post('/paymentresponse',[TransactionsController::class,'paymentResponse']);
 
 //admin
 Route::get('/admin/dashboard', [AdminController::class,'Dashboard'])->name('admin/dashboard');
