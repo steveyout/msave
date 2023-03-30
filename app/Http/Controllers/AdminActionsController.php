@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use DateInterval;
+use DatePeriod;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Mail\User as userEmail;
@@ -116,16 +119,28 @@ class AdminActionsController extends Controller
     ////simulate transactions
     public function simulateTransactions(Request $request,Generator $faker){
         $users=User::all();
-        foreach ($users as $user){
-            $amount=$faker->numberBetween(100,10000);
-            $user->transactions()->create([
-                'amount'=>$amount,
-                'receipt_number'=>$faker->randomNumber(5, true),
-                'phone_number'=>$faker->phoneNumber()
-            ]);
-            $user->contributions()->create([
-                'amount'=>$amount
-            ]);
+        $begin = new DateTime('2023-03-01');
+        $end = new DateTime('2023-03-31');
+
+        $interval = DateInterval::createFromDateString('1 day');
+        $period = new DatePeriod($begin, $interval, $end);
+        //to do =>time-consuming needs to be done in background
+        foreach ($period as $dt) {
+            foreach ($users as $user) {
+                $amount = $faker->numberBetween(100, 10000);
+                $user->transactions()->create([
+                    'amount' => $amount,
+                    'receipt_number' => $faker->unique()->randomNumber(5, true),
+                    'phone_number' => $faker->phoneNumber(),
+                    'created_at'=>$dt->format("Y-m-d H:i:s"),
+                    'updated_at'=>$dt->format("Y-m-d H:i:s")
+                ]);
+                $user->contributions()->create([
+                    'amount' => $amount,
+                    'created_at'=>$dt->format("Y-m-d H:i:s"),
+                    'updated_at'=>$dt->format("Y-m-d H:i:s")
+                ]);
+            }
         }
         return response()->json([
             'success'=>true,

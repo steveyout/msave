@@ -36,8 +36,8 @@ class DashboardController extends Controller
             ->setLabels($trLabel)
             ->setDataset('Amount', 'area', $amount);
         //count contributions
-        $myContributions=$user->contributions()->sum('amount');
-        $contributions=contributions::sum('amount');
+        $myContributions=number_format($user->contributions()->sum('amount'),2);
+        $contributions=number_format(contributions::sum('amount'),2);
         return view('dashboard.index',[
             'chart'=>$chart,
             'chart1'=>$chart1,

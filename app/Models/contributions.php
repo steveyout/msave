@@ -9,6 +9,8 @@ class contributions extends Model
 {
     use HasFactory;
     protected $fillable=[
-        'amount'
+        'amount',
+        'created_at',
+        'updated_at'
     ];
 }

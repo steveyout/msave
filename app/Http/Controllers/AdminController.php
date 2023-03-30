@@ -7,12 +7,13 @@ use App\Models\transactions;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\contributions;
+use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
     //admin dashboard
     public function Dashboard(Request $request){
-        $total=contributions::sum('amount');
+        $total=number_format(contributions::sum('amount'),2);
         $users=User::all();
         $labels=[];
         $data=[];
@@ -24,7 +25,7 @@ class AdminController extends Controller
             array_push($labels,$user->name);
         }
         foreach ($transactions as $transaction){
-            array_push($trLabel,$transaction->created_at->format('Y-m-d H:i:s'));
+            array_push($trLabel, $transaction->created_at->format('Y-m-d'));
             array_push($amount,$transaction->amount);
         }
         //contributions
@@ -35,12 +36,12 @@ class AdminController extends Controller
             ->setLabels($labels)
             ->setDataset('Contributions breakdown', 'donut', $data);
         //transactions
-        $chart1 = (new Charts)->setType('area')
+        $chart1 = (new Charts)->setType('bar')
             ->setWidth('100%')
             ->setHeight(300)
             ->setStrokeCurve('smooth')
             ->setLabels($trLabel)
-            ->setDataset('Amount', 'area', $amount);
+            ->setDataset('Amount', 'bar', $amount);
         return view('admin.index',[
             'chart'=>$chart,
             'chart1'=>$chart1,

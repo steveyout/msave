@@ -69,6 +69,7 @@
                             <th scope="col">Amount</th>
                             <th scope="col">Receipt No</th>
                             <th scope="col">Phone No</th>
+                            <th scope="col">Created At</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -78,6 +79,7 @@
                                 <td>{{$transaction->amount}} KES</td>
                                 <td>{{$transaction->receipt_number}}</td>
                                 <td>{{$transaction->phone_number}}</td>
+                                <td>{{$transaction->created_at}}</td>
                             </tr>
                         @endforeach
                         </tbody>

@@ -11,6 +11,8 @@ class transactions extends Model
     protected $fillable=[
         'amount',
         'receipt_number',
-        'phone_number'
+        'phone_number',
+        'created_at',
+        'updated_at'
     ];
 }
